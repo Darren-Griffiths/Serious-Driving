@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class mmcontroller : MonoBehaviour {
 
@@ -13,4 +14,9 @@ public class mmcontroller : MonoBehaviour {
 	void Update () {
 		
 	}
+    // Loads level 1 on click
+    public void playbuttonClick()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("level1");
+    }
 }
