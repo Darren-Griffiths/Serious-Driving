@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class trafficlights : MonoBehaviour {
+public class trafficlights : MonoBehaviour
+{
 
     public GameObject redLight;
     public GameObject amberLight;
@@ -24,6 +25,7 @@ public class trafficlights : MonoBehaviour {
         glLight = greenLight.GetComponentInChildren<Light>();
         rlLight.enabled = true;
         currentLight = 1;
+        resetlightTimer();
     }
 	
 	// Update is called once per frame
@@ -35,55 +37,69 @@ public class trafficlights : MonoBehaviour {
             
             if (lightTimer < 0)
             {
-                //debug.log("over");
-                //nextLight();
-                //debug.log(currentlight);
+                Debug.Log("over");
+                nextLight();
+                Debug.Log(currentLight);
             }
 
-            //if (currentlight == 1)
-            //{
-            //    rllight.enabled = true;
-            //    allight.enabled = false;
-            //    gllight.enabled = false;
-            //}
-            //if (currentlight == 2)
-            //{
-            //    rllight.enabled = false;
-            //    allight.enabled = true;
-            //    // start a new timer
-            //    gllight.enabled = false;
-            //}
-            //if (currentlight == 3)
-            //{
-            //    rllight.enabled = false;
-            //    allight.enabled = false;
-            //    // start a new timer
-            //    gllight.enabled = true;
-            //}
+            if (currentLight == 1)
+            {
+                rlLight.enabled = true;
+                alLight.enabled = false;
+                glLight.enabled = false;
+            }
+            if (currentLight == 2)
+            {
+                rlLight.enabled = true;
+                alLight.enabled = true;
+                // start a new timer
+                glLight.enabled = false;
+            }
+            if (currentLight == 3)
+            {
+                rlLight.enabled = false;
+                alLight.enabled = false;
+                // start a new timer
+                glLight.enabled = true;
+            }
+            if (currentLight == 4)
+            {
+                rlLight.enabled = false;
+                alLight.enabled = true;
+                // start a new timer
+                glLight.enabled = false;
+            }
         }
 
     }
 
-    //public void resetlightTimer()
-    //{
-    //    //lightTimer = 10;
-    //}
+    public void resetlightTimer()
+    {
+        lightTimer = 10;
+    }
 
-    //public void nextLight()
-    //{
-        //debug.log("working");
-    //    if (currentlight == 1)
-    //    {
-    //        currentlight = 2;
-    //    }
-    //    else if (currentlight == 2)
-    //    {
-    //        currentlight = 3;
-    //    }
-    //    else if (currentlight == 3)
-    //    {
-    //        currentlight = 1;
-    //    }
-    //}
+    public void nextLight()
+    {
+        if (currentLight == 1)
+        {
+            currentLight = 2;
+            lightTimer = 3;
+        }
+        else if (currentLight == 2)
+        {
+            currentLight = 3;
+            resetlightTimer();
+        }
+        else if (currentLight == 3)
+        {
+            currentLight = 4;
+            lightTimer = 5;
+        }
+        else if (currentLight == 4)
+        {
+            currentLight = 1;
+            resetlightTimer();
+        }
+    }
 
 }
