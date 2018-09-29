@@ -5,15 +5,16 @@ using UnityEngine;
 public class carAI : MonoBehaviour {
 
 	public Transform currentPath;
-	private List<Transform> nodes;
-	private int currentPathNode = 0;
-	private bool isAvoiding = false;
+	public List<Transform> nodes;
+	public int currentPathNode = 0;
+	public bool isAvoiding = false;
 	private float targetSteerAngle = 0;
 
 	public Vector3 frontLineLoc = new Vector3(0f, 2f, 0.5f);
 	public float sideLinePos = 4f;
 	public float frontSensorAngle = 30f;
 
+	public string pathDestinationID = "";
 
 	[Header("Car Setup")]
 	public float maxSteerAngle = 40f;
@@ -25,11 +26,12 @@ public class carAI : MonoBehaviour {
 	public Vector3 COM;
 
 	[Header("AI properties")]
-	public float distCheckLimit = 2f;
+	public float nodeDistCheckLimit = 2f;
 	public float maxMotorTorque = 200f;
 	public float currentSpeed;
 	public float maxSpeed = 100f;
 	public float maxBrakeTorque = 150f;
+	public LayerMask rayCastLayerMask;
 
 	[Header("Cur AI Behaviour")]
 	public bool isBreaking = false;
@@ -37,6 +39,7 @@ public class carAI : MonoBehaviour {
 
 	[Header("Sensors")]
 	public float sensorLength = 5f;
+	public float avoidMultiInt = 0.2f;
 
 
 	// Use this for initialization
@@ -45,15 +48,67 @@ public class carAI : MonoBehaviour {
 		loadNewPath (currentPath);
 	}
 
+	/*switchPath Transform - next path for the AI to switch to
+	 * 
+	 * this function will attempt to find the closest available node of the path and use it as its current node
+	 * 
+	 * */
 	public void switchPath(Transform path) {
-		
+
+		currentPathNode = findNearestNode(path);
+
 		loadNewPath(path);
 
-		currentPathNode = 0;
+
+	}
+		
+	/*switchPath 
+	 *  - path Transform - next path for the AI to switch to
+	 *  - node Integer - the number of the node to set as current
+	 * 
+	 * this switches to the specified path and sets the current node by user specification
+	 * 
+	 * */
+	public void switchPath(Transform path, int node) {
+		loadNewPath (path);
+		Debug.Log ("switchpath(1,1)");
+		currentPathNode = node;
+	}
+
+	//Attempts to find the closest node based on current position
+	int findNearestNode(Transform path) {
+
+		Transform[] pathTransforms = path.GetComponentsInChildren<Transform> ();
+
+		Vector3 currentPos = transform.position;
+		float minDistance = Mathf.Infinity;
+		int nodeKey = 0;
+
+		//loop over the new path
+		for (int i = 0; i < pathTransforms.Length - 1; i++) {
+			//get the distance
+			float distance = Vector3.Distance (pathTransforms [i].position, currentPos);
+			Debug.Log ("Distance to node" + distance);
+			// check if this distance is closer than what we found earlier 
+			if (distance < minDistance) {
+				Debug.Log ("found the shortest");
+
+				//if yes set the closest node to the index of the path Array
+				nodeKey = i;
+				//default the closest distance to current distance
+				minDistance = distance;
+			}
+
+		}
+
+		Debug.Log ("Noide key " + nodeKey + " distance: " + minDistance);
+
+		return nodeKey;
 	}
 
 	//sets up a full path for the car
 	void loadNewPath(Transform travelPath) {
+		currentPath = travelPath;
 		//get the current path
 		Transform[] pathTransforms = travelPath.GetComponentsInChildren<Transform> ();
 		//clear nodes list
@@ -77,9 +132,6 @@ public class carAI : MonoBehaviour {
 	
 		CheckPathNodeDistance ();
 
-		Debug.Log (currentPathNode);
-
-
 		Braking ();
 
 		LerpToSteerAngle ();
@@ -101,7 +153,7 @@ public class carAI : MonoBehaviour {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				Debug.DrawLine (sensorStartPos, hit.point);
 				isAvoiding = true;
-				avoidMultiplier -= 1f;
+				avoidMultiplier -= (2 * avoidMultiInt);
 			}
 		}
 
@@ -110,7 +162,7 @@ public class carAI : MonoBehaviour {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				Debug.DrawLine (sensorStartPos, hit.point);
 				isAvoiding = true;
-				avoidMultiplier -= 0.5f;
+				avoidMultiplier -= avoidMultiInt;
 			}
 		}
 
@@ -120,7 +172,7 @@ public class carAI : MonoBehaviour {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				Debug.DrawLine (sensorStartPos, hit.point);
 				isAvoiding = true;
-				avoidMultiplier += 1f;
+				avoidMultiplier += (2 * avoidMultiInt);
 			}
 		}
 
@@ -129,7 +181,7 @@ public class carAI : MonoBehaviour {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				Debug.DrawLine (sensorStartPos, hit.point);
 				isAvoiding = true;
-				avoidMultiplier += 0.5f;
+				avoidMultiplier += avoidMultiInt;
 			}
 		}
 
@@ -142,9 +194,9 @@ public class carAI : MonoBehaviour {
 					isAvoiding = true;
 
 					if (hit.normal.x < 0) {
-						avoidMultiplier = -1;
+						avoidMultiplier = -(2*avoidMultiInt);
 					} else {
-						avoidMultiplier = 1;
+						avoidMultiplier = (2 * avoidMultiInt);
 					}
 
 				}
@@ -176,9 +228,11 @@ public class carAI : MonoBehaviour {
 	private void ApplySteering() {
 
 		if (isAvoiding) {
+			Debug.Log ("is avoiding no steering");
 			return;
 		}
 
+		Debug.Log ("CURRENT NODE CHECK FOR DISTANCE " + currentPathNode);
 
 		Vector3 relativeVector = transform.InverseTransformPoint (nodes [currentPathNode].position);
 		//relativeVector = relativeVector / relativeVector.magnitude;
@@ -189,9 +243,9 @@ public class carAI : MonoBehaviour {
 	}
 
 	private void CheckPathNodeDistance() {
-		Debug.Log ("distance " + Vector3.Distance (transform.position, nodes [currentPathNode].position));
+		//Debug.Log ("distance " + Vector3.Distance (transform.position, nodes [currentPathNode].position));
 
-		if (Vector3.Distance (transform.position, nodes [currentPathNode].position) < distCheckLimit) {
+		if (Vector3.Distance (transform.position, nodes [currentPathNode].position) < nodeDistCheckLimit) {
 			if (currentPathNode == nodes.Count - 1) {
 				currentPathNode = 0;
 
@@ -202,11 +256,13 @@ public class carAI : MonoBehaviour {
 			}
 
 		}
+
+		Debug.Log("Current Path Node is : " + currentPathNode);
 	}
 
 	private void Braking() {
 
-		Debug.Log (isBreaking);
+		//Debug.Log (isBreaking);
 
 		if (isBreaking) {
 			brakeLights.enabled = true;
