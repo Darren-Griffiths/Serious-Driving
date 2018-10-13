@@ -7,7 +7,7 @@ public class PathVisuilaizer : MonoBehaviour {
 
 	private List<Transform> nodes = new List<Transform>();
 
-	void OnDrawGizmos() {
+	void OnDrawGizmosSelected() {
 		Gizmos.color = lineColour;
 
 		Transform[] pathTransform = GetComponentsInChildren<Transform> ();

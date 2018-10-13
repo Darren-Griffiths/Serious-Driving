@@ -40,11 +40,14 @@ public class carAI : MonoBehaviour {
 	[Header("Sensors")]
 	public float sensorLength = 5f;
 	public float avoidMultiInt = 0.2f;
-
+	public bool waitForGiveWay = false;
 
 	// Use this for initialization
 	void Start () {
 		GetComponent<Rigidbody> ().centerOfMass = COM;
+		//spawn car and find the nears node on the path
+		currentPathNode = findNearestNode(currentPath);
+
 		loadNewPath (currentPath);
 	}
 
@@ -71,7 +74,6 @@ public class carAI : MonoBehaviour {
 	 * */
 	public void switchPath(Transform path, int node) {
 		loadNewPath (path);
-		Debug.Log ("switchpath(1,1)");
 		currentPathNode = node;
 	}
 
@@ -88,10 +90,10 @@ public class carAI : MonoBehaviour {
 		for (int i = 0; i < pathTransforms.Length - 1; i++) {
 			//get the distance
 			float distance = Vector3.Distance (pathTransforms [i].position, currentPos);
-			Debug.Log ("Distance to node" + distance);
+			//Debug.Log ("Distance to node" + distance);
 			// check if this distance is closer than what we found earlier 
 			if (distance < minDistance) {
-				Debug.Log ("found the shortest");
+			//	Debug.Log ("found the shortest");
 
 				//if yes set the closest node to the index of the path Array
 				nodeKey = i;
@@ -101,7 +103,7 @@ public class carAI : MonoBehaviour {
 
 		}
 
-		Debug.Log ("Noide key " + nodeKey + " distance: " + minDistance);
+		//Debug.Log ("Noide key " + nodeKey + " distance: " + minDistance);
 
 		return nodeKey;
 	}
@@ -147,20 +149,30 @@ public class carAI : MonoBehaviour {
 		float avoidMultiplier = 0;
 		isAvoiding = false;
 
+
+
+
 		//front right edge sensor
 		sensorStartPos += transform.right * sideLinePos;
+		Debug.DrawRay(sensorStartPos, transform.forward * sensorLength, Color.green);
 		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				Debug.DrawLine (sensorStartPos, hit.point);
+				//Debug.DrawLine (sensorStartPos, hit.point);
+
+				//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
+
 				isAvoiding = true;
 				avoidMultiplier -= (2 * avoidMultiInt);
 			}
 		}
 
+
+
 		//front right angle sensor
 		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				Debug.DrawLine (sensorStartPos, hit.point);
+				Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier -= avoidMultiInt;
 			}
@@ -170,7 +182,8 @@ public class carAI : MonoBehaviour {
 		sensorStartPos -= transform.right * sideLinePos * 2;
 		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				Debug.DrawLine (sensorStartPos, hit.point);
+				//Debug.DrawLine (sensorStartPos, hit.point);
+				//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier += (2 * avoidMultiInt);
 			}
@@ -179,7 +192,8 @@ public class carAI : MonoBehaviour {
 		//front left angle sensor
 		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				Debug.DrawLine (sensorStartPos, hit.point);
+				//Debug.DrawLine (sensorStartPos, hit.point);
+				//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier += avoidMultiInt;
 			}
@@ -190,7 +204,8 @@ public class carAI : MonoBehaviour {
 		
 			if (Physics.Raycast (sensorStartPos, transform.forward * sensorLength, out hit, sensorLength)) {
 				if (!hit.collider.CompareTag ("Terrain")) {
-					Debug.DrawLine (sensorStartPos, hit.point);
+					//Debug.DrawLine (sensorStartPos, hit.point);
+					//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
 					isAvoiding = true;
 
 					if (hit.normal.x < 0) {
@@ -216,6 +231,8 @@ public class carAI : MonoBehaviour {
 
 		currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
+		Debug.Log ("Power fun, is breaking? " + isBreaking);
+
 		if (currentSpeed < maxSpeed && !isBreaking) {
 			wheelFL.motorTorque = maxMotorTorque;
 			wheelFR.motorTorque = maxMotorTorque;
@@ -228,11 +245,13 @@ public class carAI : MonoBehaviour {
 	private void ApplySteering() {
 
 		if (isAvoiding) {
-			Debug.Log ("is avoiding no steering");
+		//	Debug.Log ("is avoiding no steering");
 			return;
 		}
 
-		Debug.Log ("CURRENT NODE CHECK FOR DISTANCE " + currentPathNode);
+		//Debug.Log ("CURRENT NODE CHECK FOR DISTANCE " + currentPathNode);
+
+		//Debug.Log ("heading to " + nodes [currentPathNode]);
 
 		Vector3 relativeVector = transform.InverseTransformPoint (nodes [currentPathNode].position);
 		//relativeVector = relativeVector / relativeVector.magnitude;
@@ -257,14 +276,16 @@ public class carAI : MonoBehaviour {
 
 		}
 
-		Debug.Log("Current Path Node is : " + currentPathNode);
+		//Debug.Log("Current Path Node is : " + currentPathNode);
 	}
+
+
 
 	private void Braking() {
 
 		//Debug.Log (isBreaking);
 
-		if (isBreaking) {
+		if (isBreaking || waitForGiveWay) {
 			brakeLights.enabled = true;
 			wheelRR.brakeTorque = maxBrakeTorque;
 			wheelRL.brakeTorque = maxBrakeTorque;
