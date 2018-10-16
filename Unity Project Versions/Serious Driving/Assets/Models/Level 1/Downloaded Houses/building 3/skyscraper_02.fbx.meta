@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: ba8521a1fcadb8645a6e06c9e9c51eea
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: balcony
+    100002: barrels
+    100004: barrels_001
+    100006: floor_001
+    100008: floor_003
+    100010: frame
+    100012: frame_001
+    100014: frame_002
+    100016: frame_003
+    100018: frame_009
+    100020: frame_013
+    100022: roof_barrels
+    100024: //RootNode
+    100026: support
+    100028: support_001
+    100030: window_008
+    100032: window_010
+    100034: windows
+    400000: balcony
+    400002: barrels
+    400004: barrels_001
+    400006: floor_001
+    400008: floor_003
+    400010: frame
+    400012: frame_001
+    400014: frame_002
+    400016: frame_003
+    400018: frame_009
+    400020: frame_013
+    400022: roof_barrels
+    400024: //RootNode
+    400026: support
+    400028: support_001
+    400030: window_008
+    400032: window_010
+    400034: windows
+    2100000: metal_grey
+    2100002: curb
+    2100004: window_glass
+    2100006: sciana_szara
+    2300000: balcony
+    2300002: barrels
+    2300004: barrels_001
+    2300006: floor_001
+    2300008: floor_003
+    2300010: frame
+    2300012: frame_001
+    2300014: frame_002
+    2300016: frame_003
+    2300018: frame_009
+    2300020: frame_013
+    2300022: roof_barrels
+    2300024: support
+    2300026: support_001
+    2300028: window_008
+    2300030: window_010
+    2300032: windows
+    3300000: balcony
+    3300002: barrels
+    3300004: barrels_001
+    3300006: floor_001
+    3300008: floor_003
+    3300010: frame
+    3300012: frame_001
+    3300014: frame_002
+    3300016: frame_003
+    3300018: frame_009
+    3300020: frame_013
+    3300022: roof_barrels
+    3300024: support
+    3300026: support_001
+    3300028: window_008
+    3300030: window_010
+    3300032: windows
+    4300000: roof_barrels
+    4300002: barrels
+    4300004: floor_003
+    4300006: floor_001
+    4300008: barrels_001
+    4300010: window_008
+    4300012: frame_009
+    4300014: support
+    4300016: balcony
+    4300018: support_001
+    4300020: window_010
+    4300022: frame_013
+    4300024: frame
+    4300026: frame_001
+    4300028: windows
+    4300030: frame_003
+    4300032: frame_002
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 250
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

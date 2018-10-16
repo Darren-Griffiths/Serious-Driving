@@ -231,7 +231,7 @@ public class carAI : MonoBehaviour {
 
 		currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
-		Debug.Log ("Power fun, is breaking? " + isBreaking);
+		//Debug.Log ("Power fun, is breaking? " + isBreaking);
 
 		if (currentSpeed < maxSpeed && !isBreaking) {
 			wheelFL.motorTorque = maxMotorTorque;
