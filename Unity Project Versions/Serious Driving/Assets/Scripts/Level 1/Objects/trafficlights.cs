@@ -37,9 +37,9 @@ public class trafficlights : MonoBehaviour
             
             if (lightTimer < 0)
             {
-                Debug.Log("over");
+                //Debug.Log("over");
                 nextLight();
-                Debug.Log(currentLight);
+                //Debug.Log(currentLight);
             }
 
             if (currentLight == 1)

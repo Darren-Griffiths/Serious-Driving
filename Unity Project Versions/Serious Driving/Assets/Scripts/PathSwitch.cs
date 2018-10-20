@@ -24,6 +24,22 @@ public class PathSwitch : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerStay(Collider col) {
+		if (col.gameObject.tag == "Player") {
+			return;
+		}
+
+		AI = col.transform.root.GetComponent<carAI> ();
+
+		//check if its free and then remove braking
+		if (isGiveWay && giveWay.isFree) {
+			AI.waitForGiveWay = false;
+			AI.isBreaking = false;
+		}
+	}
+
+	//apply braking to the cars behind the one that is breaking
+
 	void OnTriggerEnter(Collider col) {
 		Debug.Log (col.gameObject.tag);
 		if (col.gameObject.tag == "Player") {
@@ -31,25 +47,14 @@ public class PathSwitch : MonoBehaviour {
 		}
 
 		AI = col.transform.root.GetComponent<carAI> ();
-
-		if (giveWay != null) {
-			Debug.Log ("give way " + giveWay.isFree);
-		}
-
 		//TODO IMPLEMENT THE REVERSE OF THIS
 
 		//check give way and if something is there brake
 		if ( giveWay != null && !giveWay.isFree) {
-			Debug.Log ("apply brakes");
+			//Debug.Log ("apply brakes");
 			AI.waitForGiveWay = true;
 			AI.isBreaking = true;
 		}
-//		else {
-//			Debug.Log ("just drive");
-//			AI.waitForGiveWay = false;
-//			AI.isBreaking = 
-//		}
-			
 
 		//so if the current pathswitch we are at is not the one the car has saved as the destination
 		//do nothin and exit
@@ -80,8 +85,6 @@ public class PathSwitch : MonoBehaviour {
 			//Debug.Log ("switching to path : " + nextPath + " using specified node: " + specificPathNode);
 			AI.switchPath (nextPath, specificPathNode);
 		}
-
-
 	}
 
 	// on roundabouts

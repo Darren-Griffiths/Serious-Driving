@@ -10,7 +10,7 @@ public class CarSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("SpawnCar", 1f, 10f);
+		InvokeRepeating ("SpawnCar", 1f, 5f);
 	}
 
 	void SpawnCar() {

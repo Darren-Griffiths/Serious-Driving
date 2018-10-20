@@ -10,7 +10,11 @@ public class carAI : MonoBehaviour {
 	public bool isAvoiding = false;
 	private float targetSteerAngle = 0;
 
-	public Vector3 frontLineLoc = new Vector3(0f, 2f, 0.5f);
+	public Transform rightSensorPos;
+	public Transform leftSensorPos;
+	public List<Transform> forntSensors = new List<Transform> ();
+
+	public Vector3 frontLineLoc = new Vector3(-3f, 2f, 0f);
 	public float sideLinePos = 4f;
 	public float frontSensorAngle = 30f;
 
@@ -44,6 +48,8 @@ public class carAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//frontLineLoc = sensorPos.position;//new Vector3(-3f, 2f, 0f);
+
 		GetComponent<Rigidbody> ().centerOfMass = COM;
 		//spawn car and find the nears node on the path
 		currentPathNode = findNearestNode(currentPath);
@@ -61,8 +67,6 @@ public class carAI : MonoBehaviour {
 		currentPathNode = findNearestNode(path);
 
 		loadNewPath(path);
-
-
 	}
 		
 	/*switchPath 
@@ -139,47 +143,95 @@ public class carAI : MonoBehaviour {
 		LerpToSteerAngle ();
 	}
 
-	private void CheckSensors() {
+	public void CheckSensors() {
 		RaycastHit hit;
-		Vector3 sensorStartPos = transform.position + frontLineLoc;
+		Vector3 sensorStartPos;
 
-		sensorStartPos += transform.forward * frontLineLoc.z;
-		sensorStartPos += transform.up * frontLineLoc.y;
+		//sensorStartPos += transform.forward * frontLineLoc.z;
+		//sensorStartPos += transform.up * frontLineLoc.y;
 
 		float avoidMultiplier = 0;
 		isAvoiding = false;
 
+		bool breakingNoAvoid = false;
+
+		foreach (Transform pos in forntSensors) {
+
+			Debug.DrawRay(pos.position, transform.forward * sensorLength, Color.red, 0.1f);
+
+			if (Physics.Raycast (pos.position, transform.forward * sensorLength, out hit, sensorLength)) {
+				if (!hit.collider.CompareTag ("Terrain")) {
+
+					Debug.Log (hit.collider.gameObject);
+					GameObject something = hit.collider.transform.root.gameObject;
+
+					carAI ai = something.GetComponent<carAI> ();
 
 
+					Debug.Log ("hit distance " + hit.distance);
+
+
+					if (ai != null && ai.isBreaking) {
+						Debug.Log ("braking boiii");
+						this.isBreaking = true;
+						breakingNoAvoid = true;
+					} else {
+						
+
+					}
+
+					isAvoiding = true;
+
+					if (hit.normal.x < 0) {
+						avoidMultiplier = -(2 * avoidMultiInt);
+					} else {
+						avoidMultiplier = (2 * avoidMultiInt);
+					}
+
+				}
+			}
+		}
+
+		if (this.isBreaking) {
+			return;
+		}
 
 		//front right edge sensor
-		sensorStartPos += transform.right * sideLinePos;
-		Debug.DrawRay(sensorStartPos, transform.forward * sensorLength, Color.green);
+		sensorStartPos = rightSensorPos.position;
+
+		Debug.DrawRay(sensorStartPos, transform.forward * sensorLength, Color.green, 0.5f);
+
+		Debug.DrawRay(sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward * sensorLength, Color.green, 0.5f);
+
 		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				//Debug.DrawLine (sensorStartPos, hit.point);
 
-				//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
+				Debug.Log ("HITTING " + hit.collider.gameObject + " AVOIDING");
 
 				isAvoiding = true;
 				avoidMultiplier -= (2 * avoidMultiInt);
 			}
 		}
-
-
-
+			
 		//front right angle sensor
 		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				Debug.DrawLine (sensorStartPos, hit.point);
-				Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
+				Debug.Log ("HITTING " + hit.collider.gameObject + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier -= avoidMultiInt;
 			}
 		}
 
+
+
 		//front left edge sensor
-		sensorStartPos -= transform.right * sideLinePos * 2;
+		sensorStartPos = leftSensorPos.position;
+
+		Debug.DrawRay(sensorStartPos, transform.forward * sensorLength, Color.red, 0.5f);
+
+		Debug.DrawRay(sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward * sensorLength, Color.red, 0.5f);
+
 		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				//Debug.DrawLine (sensorStartPos, hit.point);
@@ -193,38 +245,19 @@ public class carAI : MonoBehaviour {
 		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
 				//Debug.DrawLine (sensorStartPos, hit.point);
-				//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
+				Debug.Log ("HITTING " + hit.collider.gameObject + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier += avoidMultiInt;
 			}
 		}
-
-		//front center sensor
-		if(avoidMultiplier == 0) {
-		
-			if (Physics.Raycast (sensorStartPos, transform.forward * sensorLength, out hit, sensorLength)) {
-				if (!hit.collider.CompareTag ("Terrain")) {
-					//Debug.DrawLine (sensorStartPos, hit.point);
-					//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
-					isAvoiding = true;
-
-					if (hit.normal.x < 0) {
-						avoidMultiplier = -(2*avoidMultiInt);
-					} else {
-						avoidMultiplier = (2 * avoidMultiInt);
-					}
-
-				}
-			}
-
-		}
-
+			
 
 		if (isAvoiding) {
 			targetSteerAngle = maxSteerAngle * avoidMultiplier;
 		}
 
 	}
+
 
 
 	private void ApplyPower() {
