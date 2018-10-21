@@ -20,6 +20,9 @@ public class carAI : MonoBehaviour {
 
 	public string pathDestinationID = "";
 
+	public bool brakingForCar = false;
+	public float driverThrottleInput = 1;
+
 	[Header("Car Setup")]
 	public float maxSteerAngle = 40f;
 	public float turnSpeed = 5f;
@@ -43,7 +46,7 @@ public class carAI : MonoBehaviour {
 
 	[Header("Sensors")]
 	public float sensorLength = 5f;
-	public float avoidMultiInt = 0.2f;
+	private float avoidMultiInt = 0.3f;
 	public bool waitForGiveWay = false;
 
 	// Use this for initialization
@@ -147,47 +150,65 @@ public class carAI : MonoBehaviour {
 		RaycastHit hit;
 		Vector3 sensorStartPos;
 
-		//sensorStartPos += transform.forward * frontLineLoc.z;
-		//sensorStartPos += transform.up * frontLineLoc.y;
-
 		float avoidMultiplier = 0;
 		isAvoiding = false;
 
 		bool breakingNoAvoid = false;
+		driverThrottleInput = 1f;
 
 		foreach (Transform pos in forntSensors) {
 
 			Debug.DrawRay(pos.position, transform.forward * sensorLength, Color.red, 0.1f);
 
-			if (Physics.Raycast (pos.position, transform.forward * sensorLength, out hit, sensorLength)) {
+			if (Physics.Raycast (pos.position, transform.forward * sensorLength, out hit, sensorLength, -5, QueryTriggerInteraction.Ignore)) {
 				if (!hit.collider.CompareTag ("Terrain")) {
-
-					Debug.Log (hit.collider.gameObject);
+					//get the root of the object we hit and attempt to get the AI script
 					GameObject something = hit.collider.transform.root.gameObject;
-
 					carAI ai = something.GetComponent<carAI> ();
 
-
-					Debug.Log ("hit distance " + hit.distance);
-
-
+					//if the car in front is AI and is braking
+					//set throttle to 0 and apply brakes
 					if (ai != null && ai.isBreaking) {
-						Debug.Log ("braking boiii");
 						this.isBreaking = true;
-						breakingNoAvoid = true;
+
+						driverThrottleInput = 0f;
+
+						return;
 					} else {
-						
+
+						//once car in front is a distance away, full throttle baby
+						if (this.isBreaking && hit.distance > 3) {
+							driverThrottleInput = 1f;
+							StartCoroutine(moveAfterBrake());
+						}
+
+						//if we no braking but the car in front is too close, go half throttle
+						if (hit.distance < 12) {
+							driverThrottleInput = 0.5f;
+
+							//if the car in front is getting too close, hit the brakes 
+							if (hit.distance < 5) {
+								driverThrottleInput = 0f;
+								this.isBreaking = true;
+							}
+
+						} else {
+							driverThrottleInput = 1f;
+						}
 
 					}
 
-					isAvoiding = true;
+
+
+					/*isAvoiding = true;
 
 					if (hit.normal.x < 0) {
-						avoidMultiplier = -(2 * avoidMultiInt);
+						avoidMultiplier = -(2 * 0.05f);
 					} else {
-						avoidMultiplier = (2 * avoidMultiInt);
+						avoidMultiplier = (2 * 0.05f);
 					}
 
+	*/
 				}
 			}
 		}
@@ -198,28 +219,26 @@ public class carAI : MonoBehaviour {
 
 		//front right edge sensor
 		sensorStartPos = rightSensorPos.position;
+		float sideSensorLength = sensorLength * 0.5f;
 
-		Debug.DrawRay(sensorStartPos, transform.forward * sensorLength, Color.green, 0.5f);
+		Debug.DrawRay(sensorStartPos, transform.forward * sideSensorLength, Color.green, 0.5f);
 
-		Debug.DrawRay(sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward * sensorLength, Color.green, 0.5f);
+		Debug.DrawRay(sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward * sideSensorLength, Color.green, 0.5f);
 
-		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sensorLength)) {
+		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sideSensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				//Debug.DrawLine (sensorStartPos, hit.point);
-
-				Debug.Log ("HITTING " + hit.collider.gameObject + " AVOIDING");
-
 				isAvoiding = true;
-				avoidMultiplier -= (2 * avoidMultiInt);
+				avoidMultiplier -= (0.5f * avoidMultiInt);
+				driverThrottleInput = 0.4f;
 			}
 		}
 			
 		//front right angle sensor
-		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength)) {
+		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward, out hit, sideSensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				Debug.Log ("HITTING " + hit.collider.gameObject + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier -= avoidMultiInt;
+				driverThrottleInput = 0.4f;
 			}
 		}
 
@@ -228,29 +247,26 @@ public class carAI : MonoBehaviour {
 		//front left edge sensor
 		sensorStartPos = leftSensorPos.position;
 
-		Debug.DrawRay(sensorStartPos, transform.forward * sensorLength, Color.red, 0.5f);
+		Debug.DrawRay(sensorStartPos, transform.forward * sideSensorLength, Color.red, 0.5f);
 
-		Debug.DrawRay(sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward * sensorLength, Color.red, 0.5f);
+		Debug.DrawRay(sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward * sideSensorLength, Color.red, 0.5f);
 
-		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sensorLength)) {
+		if (Physics.Raycast (sensorStartPos, transform.forward, out hit, sideSensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				//Debug.DrawLine (sensorStartPos, hit.point);
-				//Debug.Log ("HITTING " + hit.collider.tag + " AVOIDING");
 				isAvoiding = true;
-				avoidMultiplier += (2 * avoidMultiInt);
+				avoidMultiplier += (0.5f * avoidMultiInt);
+				driverThrottleInput = 0.4f;
 			}
 		}
 
 		//front left angle sensor
-		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength)) {
+		else if (Physics.Raycast (sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sideSensorLength)) {
 			if (!hit.collider.CompareTag ("Terrain")) {
-				//Debug.DrawLine (sensorStartPos, hit.point);
-				Debug.Log ("HITTING " + hit.collider.gameObject + " AVOIDING");
 				isAvoiding = true;
 				avoidMultiplier += avoidMultiInt;
+				driverThrottleInput = 0.4f;
 			}
 		}
-			
 
 		if (isAvoiding) {
 			targetSteerAngle = maxSteerAngle * avoidMultiplier;
@@ -258,17 +274,27 @@ public class carAI : MonoBehaviour {
 
 	}
 
+	IEnumerator moveAfterBrake() {
+		yield return new WaitForSeconds (2);
+		brakingForCar = false;
+		isBreaking = false;
+		driverThrottleInput = 5f;
+
+		StopCoroutine (moveAfterBrake());
+	}
 
 
 	private void ApplyPower() {
-
 		currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
-		//Debug.Log ("Power fun, is breaking? " + isBreaking);
+		//Debug.Log ("THROTTLE POSIS " + driverThrottleInput);
+
+		//get correct power for situation
+		float enginePower = maxMotorTorque * driverThrottleInput;
 
 		if (currentSpeed < maxSpeed && !isBreaking) {
-			wheelFL.motorTorque = maxMotorTorque;
-			wheelFR.motorTorque = maxMotorTorque;
+			wheelFL.motorTorque = enginePower;
+			wheelFR.motorTorque = enginePower;
 		} else {
 			wheelFL.motorTorque = 0;
 			wheelFR.motorTorque = 0;
@@ -317,8 +343,20 @@ public class carAI : MonoBehaviour {
 	private void Braking() {
 
 		//Debug.Log (isBreaking);
+		/*
+		if (brakingForCar) {
+			brakeLights.enabled = true;
+			wheelRR.brakeTorque = maxBrakeTorque;
+			wheelRL.brakeTorque = maxBrakeTorque;
+		} else {
+			brakeLights.enabled = false;
 
-		if (isBreaking || waitForGiveWay) {
+			wheelRR.brakeTorque = 0;
+			wheelRL.brakeTorque = 0;
+		}
+*/
+
+		if (isBreaking || waitForGiveWay || brakingForCar) {
 			brakeLights.enabled = true;
 			wheelRR.brakeTorque = maxBrakeTorque;
 			wheelRL.brakeTorque = maxBrakeTorque;

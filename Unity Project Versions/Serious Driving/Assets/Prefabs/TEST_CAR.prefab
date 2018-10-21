@@ -2640,8 +2640,10 @@ MonoBehaviour:
   - {fileID: 4765199188709432}
   frontLineLoc: {x: 0, y: 0.6, z: 0}
   sideLinePos: 1.2
-  frontSensorAngle: 30
+  frontSensorAngle: 20
   pathDestinationID: exit2
+  brakingForCar: 0
+  driverThrottleInput: 1
   maxSteerAngle: 50
   turnSpeed: 4
   wheelFL: {fileID: 146351234225441716}
@@ -2652,15 +2654,14 @@ MonoBehaviour:
   nodeDistCheckLimit: 4
   maxMotorTorque: 300
   currentSpeed: 0
-  maxSpeed: 100
-  maxBrakeTorque: 5000
+  maxSpeed: 50
+  maxBrakeTorque: 50000
   rayCastLayerMask:
     serializedVersion: 2
     m_Bits: 55
   isBreaking: 0
   brakeLights: {fileID: 23360773152229850}
-  sensorLength: 16
-  avoidMultiInt: 0.3
+  sensorLength: 18
   waitForGiveWay: 0
 --- !u!146 &146142853824062578
 WheelCollider:

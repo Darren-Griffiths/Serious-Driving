@@ -6,11 +6,20 @@ public class giveWayCheck : MonoBehaviour {
 
 	public bool isFree = true;
 
+	private int carsInTrigger = 0;
+
 	void OnTriggerEnter() {
-		isFree = false;
+		this.isFree = false;
+		this.carsInTrigger++;
 	}
 
 	void OnTriggerExit() {
-		isFree = true;
+		this.carsInTrigger--;
+
+		if(this.carsInTrigger == 0) {
+			this.isFree = true;
+		}
+
+		Debug.Log ("cars in trigger " + this.carsInTrigger);
 	}
 }
