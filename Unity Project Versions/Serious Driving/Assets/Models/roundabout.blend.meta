@@ -15,6 +15,9 @@ ModelImporter:
     100018: BezierCurve_003
     100020: Circle_005
     100022: Circle_006
+    100024: BezierCurve_004
+    100026: Circle_007
+    100028: Circle_008
     400000: //RootNode
     400002: BezierCurve
     400004: BezierCurve_001
@@ -27,6 +30,9 @@ ModelImporter:
     400018: BezierCurve_003
     400020: Circle_005
     400022: Circle_006
+    400024: BezierCurve_004
+    400026: Circle_007
+    400028: Circle_008
     2100000: unnamed
     2100002: None__Seamless-Road-Texture1_jpg
     2100004: None__road_give_way_jpg
@@ -42,6 +48,9 @@ ModelImporter:
     2300018: BezierCurve_003
     2300020: Circle_005
     2300022: Circle_006
+    2300024: BezierCurve_004
+    2300026: Circle_007
+    2300028: Circle_008
     3300000: //RootNode
     3300002: BezierCurve
     3300004: BezierCurve_001
@@ -54,6 +63,9 @@ ModelImporter:
     3300018: BezierCurve_003
     3300020: Circle_005
     3300022: Circle_006
+    3300024: BezierCurve_004
+    3300026: Circle_007
+    3300028: Circle_008
     4300000: Circle
     4300002: BezierCurve_002
     4300004: Circle_003
@@ -65,6 +77,9 @@ ModelImporter:
     4300016: Circle_006
     4300018: BezierCurve_003
     4300020: Circle_005
+    4300022: Circle_008
+    4300024: BezierCurve_004
+    4300026: Circle_007
     7400000: Default Take
     9500000: //RootNode
     2186277476908879412: ImportLogs
