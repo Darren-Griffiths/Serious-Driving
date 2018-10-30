@@ -13,14 +13,23 @@ public class PathSwitch : MonoBehaviour {
 	public Transform nextPath;
 	public int specificPathNode;
 	private carAI AI;
-	private giveWayCheck giveWay;
+	//private giveWayCheck giveWay;
+	private List<giveWayCheck> giveWay = new List<giveWayCheck> ();
+
 
 	public bool isGiveWay = false;
-	public Collider giveWayCheckLocation;
+	public List<Collider> giveWayLocations = new List<Collider>();
+	//public Collider giveWayCheckLocation;
 
 	void Start() {
 		if (isGiveWay) {
-			giveWay = giveWayCheckLocation.GetComponent<giveWayCheck> ();
+
+			foreach (Collider col in giveWayLocations) {
+				giveWay.Add (col.GetComponent<giveWayCheck> ());
+			}
+
+
+			//giveWay = giveWayCheckLocation.GetComponent<giveWayCheck> ();
 		}
 	}
 
@@ -31,11 +40,22 @@ public class PathSwitch : MonoBehaviour {
 
 		AI = col.transform.root.GetComponent<carAI> ();
 
-		//check if its free and then remove braking
-		if (isGiveWay && giveWay.isFree) {
-			AI.waitForGiveWay = false;
-			AI.isBreaking = false;
+		bool canMoveOff = true;
+
+		//loop over the give ways and see if they are free
+		foreach (giveWayCheck check in giveWay) {
+			//if not free just skip this iteration
+			if (!check.isFree) {
+				canMoveOff = false;
+			}
+
 		}
+
+		if (canMoveOff) {
+			AI.isBreaking = false;
+			AI.waitForGiveWay = false;
+		}
+
 	}
 
 	//apply braking to the cars behind the one that is breaking
@@ -47,15 +67,28 @@ public class PathSwitch : MonoBehaviour {
 		}
 
 		AI = col.transform.root.GetComponent<carAI> ();
-		//TODO IMPLEMENT THE REVERSE OF THIS
 
-		//check give way and if something is there brake
-		if ( giveWay != null && !giveWay.isFree) {
-			//Debug.Log ("apply brakes");
+		bool applyBrakes = false;
+
+		//loop over all the give way checks and see if they arent free, apply brakes
+		foreach (giveWayCheck check in giveWay) {
+			//check give way and if something is there brake
+			if ( check != null && !check.isFree) {
+				Debug.Log("Brakiong");
+
+				AI.waitForGiveWay = true;
+				AI.isBreaking = true;
+
+				applyBrakes = true;
+
+			}
+		}
+
+		if (applyBrakes) {
 			AI.waitForGiveWay = true;
 			AI.isBreaking = true;
 		}
-
+			
 		//so if the current pathswitch we are at is not the one the car has saved as the destination
 		//do nothin and exit
 		if (checkExitID && thisExitIndexID != AI.pathDestinationID) {
@@ -72,34 +105,12 @@ public class PathSwitch : MonoBehaviour {
 			AI.pathDestinationID = desiredExitID;
 		}
 
-		//Debug.Log ("Specified path node of the new path is : " + specificPathNode);
-
-
-
 		//if the specified path node is empty call the fuction without it 
 		//otherwise use the specifiedPathNode
 		if (specificPathNode == -1) {
-			//Debug.Log ("switvching path to : " + nextPath + " finding the closest node");
 			AI.switchPath (nextPath);
 		} else {
-			//Debug.Log ("switching to path : " + nextPath + " using specified node: " + specificPathNode);
 			AI.switchPath (nextPath, specificPathNode);
 		}
 	}
-
-	// on roundabouts
-
-	//ai approach
-	//check for no cars
-	//drive
-
-	//before drive trigger exit node (can be randomised)
-
-	//check each node on passing if its the desired exit node
-
-	//once the exit node is hit (exit node refers to current path)
-
-	//on the exit node, grab the next path (exit nodes always refer to a specified path no randoms)
-
-
 }

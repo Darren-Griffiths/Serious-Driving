@@ -182,9 +182,14 @@ public class carAI : MonoBehaviour {
 							StartCoroutine(moveAfterBrake());
 						}
 
-						//if we no braking but the car in front is too close, go half throttle
 						if (hit.distance < 12) {
 							driverThrottleInput = 0.5f;
+						}
+
+
+						//if we no braking but the car in front is too close, go half throttle
+						if (hit.distance < 9) {
+							driverThrottleInput = 0.2f;
 
 							//if the car in front is getting too close, hit the brakes 
 							if (hit.distance < 5) {
@@ -197,18 +202,6 @@ public class carAI : MonoBehaviour {
 						}
 
 					}
-
-
-
-					/*isAvoiding = true;
-
-					if (hit.normal.x < 0) {
-						avoidMultiplier = -(2 * 0.05f);
-					} else {
-						avoidMultiplier = (2 * 0.05f);
-					}
-
-	*/
 				}
 			}
 		}
@@ -275,7 +268,7 @@ public class carAI : MonoBehaviour {
 	}
 
 	IEnumerator moveAfterBrake() {
-		yield return new WaitForSeconds (2);
+		yield return new WaitForSeconds (4);
 		brakingForCar = false;
 		isBreaking = false;
 		driverThrottleInput = 5f;
