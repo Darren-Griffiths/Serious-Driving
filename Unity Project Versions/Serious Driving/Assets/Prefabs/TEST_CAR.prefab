@@ -2651,10 +2651,10 @@ MonoBehaviour:
   wheelRL: {fileID: 146470998198588902}
   wheelRR: {fileID: 146142853824062578}
   COM: {x: 0, y: -0.5, z: 0}
-  nodeDistCheckLimit: 4
-  maxMotorTorque: 300
+  nodeDistCheckLimit: 3.5
+  maxMotorTorque: 400
   currentSpeed: 0
-  maxSpeed: 50
+  maxSpeed: 30
   maxBrakeTorque: 50000
   rayCastLayerMask:
     serializedVersion: 2
