@@ -19,7 +19,9 @@ public class PathSwitch : MonoBehaviour {
 
 	public bool isGiveWay = false;
 	public List<Collider> giveWayLocations = new List<Collider>();
-	//public Collider giveWayCheckLocation;
+
+	public bool isTrafficControlled = false;
+	public CurrentLight trafficweLights;
 
 	void Start() {
 		if (isGiveWay) {
@@ -42,6 +44,12 @@ public class PathSwitch : MonoBehaviour {
 
 		bool canMoveOff = true;
 
+		if (isTrafficControlled) {
+			if (trafficweLights.getCurrentLight() == 1 || trafficweLights.getCurrentLight() == 4) {
+				canMoveOff = false;
+			}
+		}
+			
 		//loop over the give ways and see if they are free
 		foreach (giveWayCheck check in giveWay) {
 			//if not free just skip this iteration
@@ -55,9 +63,7 @@ public class PathSwitch : MonoBehaviour {
 			AI.isBreaking = false;
 			AI.waitForGiveWay = false;
 		}
-
 	}
-
 	//apply braking to the cars behind the one that is breaking
 
 	void OnTriggerEnter(Collider col) {
@@ -70,17 +76,23 @@ public class PathSwitch : MonoBehaviour {
 
 		bool applyBrakes = false;
 
+		if (isTrafficControlled) {
+			if (trafficweLights.getCurrentLight() == 1 || trafficweLights.getCurrentLight() == 4) {
+				applyBrakes = true;
+			}
+		}
+
 		//loop over all the give way checks and see if they arent free, apply brakes
+		//this doesnt work right
 		foreach (giveWayCheck check in giveWay) {
 			//check give way and if something is there brake
 			if ( check != null && !check.isFree) {
-				Debug.Log("Brakiong");
+				Debug.Log ("ahhh we breaking because of this right");
 
 				AI.waitForGiveWay = true;
 				AI.isBreaking = true;
 
 				applyBrakes = true;
-
 			}
 		}
 

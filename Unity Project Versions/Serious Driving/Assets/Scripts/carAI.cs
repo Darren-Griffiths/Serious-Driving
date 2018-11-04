@@ -170,6 +170,7 @@ public class carAI : MonoBehaviour {
 					//set throttle to 0 and apply brakes
 					if (ai != null && ai.isBreaking) {
 						this.isBreaking = true;
+						Debug.Log("Breaking because other is breaking");
 
 						driverThrottleInput = 0f;
 
@@ -193,6 +194,7 @@ public class carAI : MonoBehaviour {
 
 							//if the car in front is getting too close, hit the brakes 
 							if (hit.distance < 5) {
+								Debug.Log ("breaking because of this???");
 								driverThrottleInput = 0f;
 								this.isBreaking = true;
 							}
@@ -207,6 +209,7 @@ public class carAI : MonoBehaviour {
 		}
 
 		if (this.isBreaking) {
+			Debug.Log ("return return because its breaking");
 			return;
 		}
 

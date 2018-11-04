@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class trafficlights : MonoBehaviour
+public class trafficlights : CurrentLight
 {
 
     public GameObject redLight;
@@ -15,7 +15,7 @@ public class trafficlights : MonoBehaviour
 
     public float lightTimer;
 
-    public float currentLight;
+    //public int currentLight;
 
 	// Use this for initialization
 	void Start ()
@@ -27,49 +27,57 @@ public class trafficlights : MonoBehaviour
         currentLight = 1;
         resetlightTimer();
     }
+
+//	public int getCurrentLight() {
+//		return this.currentLight;
+//	}
 	
 	// Update is called once per frame
 	void Update ()
     {
 
+        
+        lightTimer -= Time.deltaTime;
+        
+        if (lightTimer < 0)
         {
-            lightTimer -= Time.deltaTime;
-            
-            if (lightTimer < 0)
-            {
-                //Debug.Log("over");
-                nextLight();
-                //Debug.Log(currentLight);
-            }
-
-            if (currentLight == 1)
-            {
-                rlLight.enabled = true;
-                alLight.enabled = false;
-                glLight.enabled = false;
-            }
-            if (currentLight == 2)
-            {
-                rlLight.enabled = true;
-                alLight.enabled = true;
-                // start a new timer
-                glLight.enabled = false;
-            }
-            if (currentLight == 3)
-            {
-                rlLight.enabled = false;
-                alLight.enabled = false;
-                // start a new timer
-                glLight.enabled = true;
-            }
-            if (currentLight == 4)
-            {
-                rlLight.enabled = false;
-                alLight.enabled = true;
-                // start a new timer
-                glLight.enabled = false;
-            }
+            //Debug.Log("over");
+            nextLight();
+            //Debug.Log(currentLight);
         }
+
+		//red light
+        if (currentLight == 1)
+        {
+            rlLight.enabled = true;
+            alLight.enabled = false;
+            glLight.enabled = false;
+        }
+		//go after red, red and yellow
+        if (currentLight == 2)
+        {
+            rlLight.enabled = true;
+            alLight.enabled = true;
+            // start a new timer
+            glLight.enabled = false;
+        }
+		//green
+        if (currentLight == 3)
+        {
+            rlLight.enabled = false;
+            alLight.enabled = false;
+            // start a new timer
+            glLight.enabled = true;
+        }
+		//stopping yellow
+        if (currentLight == 4)
+        {
+            rlLight.enabled = false;
+            alLight.enabled = true;
+            // start a new timer
+            glLight.enabled = false;
+        }
+        
 
     }
 
