@@ -49,6 +49,9 @@ public class carAI : MonoBehaviour {
 	private float avoidMultiInt = 0.3f;
 	public bool waitForGiveWay = false;
 
+
+	private int isBreakingCounter = 0;
+	private int isWaitingForGiveCounter = 0;
 	// Use this for initialization
 	void Start () {
 		//frontLineLoc = sensorPos.position;//new Vector3(-3f, 2f, 0f);
@@ -144,6 +147,32 @@ public class carAI : MonoBehaviour {
 		Braking ();
 
 		LerpToSteerAngle ();
+
+		checkedPossibleHangups ();
+	}
+
+	void checkedPossibleHangups() {
+		if (isBreaking) {
+			isBreakingCounter++;
+		} 
+
+
+		if (waitForGiveWay) {
+			isWaitingForGiveCounter++;
+		}
+
+		if (isBreakingCounter > 2000) {
+			Debug.Log("HHEEEEEYEYYYY!!! tis a library");
+			isBreaking = false;
+			isBreakingCounter = 0;
+		}
+
+		if (isWaitingForGiveCounter > 2000) {
+			Debug.Log ("this also library");
+			waitForGiveWay = false;
+			isWaitingForGiveCounter = 0;
+		}
+
 	}
 
 	public void CheckSensors() {
@@ -183,17 +212,17 @@ public class carAI : MonoBehaviour {
 							StartCoroutine(moveAfterBrake());
 						}
 
-						if (hit.distance < 12) {
+						if (hit.distance < 15) {
 							driverThrottleInput = 0.5f;
 						}
 
 
 						//if we no braking but the car in front is too close, go half throttle
-						if (hit.distance < 9) {
+						if (hit.distance < 12) {
 							driverThrottleInput = 0.2f;
 
 							//if the car in front is getting too close, hit the brakes 
-							if (hit.distance < 5) {
+							if (hit.distance < 7) {
 								Debug.Log ("breaking because of this???");
 								driverThrottleInput = 0f;
 								this.isBreaking = true;
