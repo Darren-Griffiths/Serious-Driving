@@ -100,11 +100,9 @@ public class carAI : MonoBehaviour {
 		for (int i = 0; i < pathTransforms.Length - 1; i++) {
 			//get the distance
 			float distance = Vector3.Distance (pathTransforms [i].position, currentPos);
-			//Debug.Log ("Distance to node" + distance);
+
 			// check if this distance is closer than what we found earlier 
 			if (distance < minDistance) {
-			//	Debug.Log ("found the shortest");
-
 				//if yes set the closest node to the index of the path Array
 				nodeKey = i;
 				//default the closest distance to current distance
@@ -112,8 +110,6 @@ public class carAI : MonoBehaviour {
 			}
 
 		}
-
-		//Debug.Log ("Noide key " + nodeKey + " distance: " + minDistance);
 
 		return nodeKey;
 	}
@@ -162,13 +158,13 @@ public class carAI : MonoBehaviour {
 		}
 
 		if (isBreakingCounter > 2000) {
-			Debug.Log("HHEEEEEYEYYYY!!! tis a library");
+			//Debug.Log("HHEEEEEYEYYYY!!! tis a library");
 			isBreaking = false;
 			isBreakingCounter = 0;
 		}
 
 		if (isWaitingForGiveCounter > 2000) {
-			Debug.Log ("this also library");
+			//Debug.Log ("this also library");
 			waitForGiveWay = false;
 			isWaitingForGiveCounter = 0;
 		}
@@ -199,7 +195,7 @@ public class carAI : MonoBehaviour {
 					//set throttle to 0 and apply brakes
 					if (ai != null && ai.isBreaking) {
 						this.isBreaking = true;
-						Debug.Log("Breaking because other is breaking");
+						///Debug.Log("Breaking because other is breaking");
 
 						driverThrottleInput = 0f;
 
@@ -223,7 +219,7 @@ public class carAI : MonoBehaviour {
 
 							//if the car in front is getting too close, hit the brakes 
 							if (hit.distance < 7) {
-								Debug.Log ("breaking because of this???");
+								//Debug.Log ("breaking because of this???");
 								driverThrottleInput = 0f;
 								this.isBreaking = true;
 							}
@@ -238,7 +234,7 @@ public class carAI : MonoBehaviour {
 		}
 
 		if (this.isBreaking) {
-			Debug.Log ("return return because its breaking");
+			//Debug.Log ("return return because its breaking");
 			return;
 		}
 
@@ -312,8 +308,6 @@ public class carAI : MonoBehaviour {
 	private void ApplyPower() {
 		currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
-		//Debug.Log ("THROTTLE POSIS " + driverThrottleInput);
-
 		//get correct power for situation
 		float enginePower = maxMotorTorque * driverThrottleInput;
 
@@ -329,13 +323,8 @@ public class carAI : MonoBehaviour {
 	private void ApplySteering() {
 
 		if (isAvoiding) {
-		//	Debug.Log ("is avoiding no steering");
 			return;
 		}
-
-		//Debug.Log ("CURRENT NODE CHECK FOR DISTANCE " + currentPathNode);
-
-		//Debug.Log ("heading to " + nodes [currentPathNode]);
 
 		Vector3 relativeVector = transform.InverseTransformPoint (nodes [currentPathNode].position);
 		//relativeVector = relativeVector / relativeVector.magnitude;
@@ -346,40 +335,19 @@ public class carAI : MonoBehaviour {
 	}
 
 	private void CheckPathNodeDistance() {
-		//Debug.Log ("distance " + Vector3.Distance (transform.position, nodes [currentPathNode].position));
-
 		if (Vector3.Distance (transform.position, nodes [currentPathNode].position) < nodeDistCheckLimit) {
 			if (currentPathNode == nodes.Count - 1) {
 				currentPathNode = 0;
-
-				//Debug.Log ("setting to 0");
 			} else {
 				currentPathNode++;
-				//Debug.Log ("setting to new one");
 			}
 
 		}
-
-		//Debug.Log("Current Path Node is : " + currentPathNode);
 	}
 
 
 
 	private void Braking() {
-
-		//Debug.Log (isBreaking);
-		/*
-		if (brakingForCar) {
-			brakeLights.enabled = true;
-			wheelRR.brakeTorque = maxBrakeTorque;
-			wheelRL.brakeTorque = maxBrakeTorque;
-		} else {
-			brakeLights.enabled = false;
-
-			wheelRR.brakeTorque = 0;
-			wheelRL.brakeTorque = 0;
-		}
-*/
 
 		if (isBreaking || waitForGiveWay || brakingForCar) {
 			brakeLights.enabled = true;

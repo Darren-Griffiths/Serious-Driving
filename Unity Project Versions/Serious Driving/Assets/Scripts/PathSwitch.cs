@@ -67,7 +67,7 @@ public class PathSwitch : MonoBehaviour {
 	//apply braking to the cars behind the one that is breaking
 
 	void OnTriggerEnter(Collider col) {
-		Debug.Log (col.gameObject.tag);
+		//Debug.Log (col.gameObject.tag);
 		if (col.gameObject.tag == "Player") {
 			return;
 		}
@@ -87,7 +87,7 @@ public class PathSwitch : MonoBehaviour {
 		foreach (giveWayCheck check in giveWay) {
 			//check give way and if something is there brake
 			if ( check != null && !check.isFree) {
-				Debug.Log ("ahhh we breaking because of this right");
+				//Debug.Log ("ahhh we breaking because of this right");
 
 				AI.waitForGiveWay = true;
 				AI.isBreaking = true;

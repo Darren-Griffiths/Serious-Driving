@@ -300,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   StartPoint: {fileID: 1875829772234938}
+  StartRotation: {x: 0, y: 180, z: 0}
   missionMarker: {fileID: 1948010109423734}
   MissionDescription: {fileID: 0}
   FinishDescription: {fileID: 0}
