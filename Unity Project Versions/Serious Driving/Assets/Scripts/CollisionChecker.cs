@@ -8,7 +8,7 @@ public class CollisionChecker : MonoBehaviour {
 	public int otherHits = 0;
 
 	void Start() {
-		Debug.Log ("COLLISION START");
+
 	}
 
 	void OnCollisionEnter (Collision obj) {
