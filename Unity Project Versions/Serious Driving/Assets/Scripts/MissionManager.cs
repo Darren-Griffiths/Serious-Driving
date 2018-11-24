@@ -13,8 +13,7 @@ public class MissionManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		PlayerPrefs.SetInt ("missionID", 2);
-
+		PlayerPrefs.SetInt ("missionID", 1);
 
 		if (PlayerPrefs.GetInt("missionID") == 1) {
 			roundaboutScript.SetActive (true);
@@ -24,7 +23,21 @@ public class MissionManager : MonoBehaviour {
 			tJunUI.SetActive (true);
 		}
 
+	}
 
+	void Update() {
+		if (PlayerPrefs.GetInt ("missionID") == 1) {
+			roundaboutScript.SetActive (true);
+			roundaboutUI.SetActive (true);
+		} else if (PlayerPrefs.GetInt ("missionID") == 2) {
+			tJunScript.SetActive (true);
+			tJunUI.SetActive (true);
+		} else {
+			tJunScript.SetActive (false);
+			tJunUI.SetActive (false);
+			roundaboutScript.SetActive (false);
+			roundaboutUI.SetActive (false);
+		}
 	}
 	
 

@@ -33,6 +33,8 @@ public class Mission : MonoBehaviour {
 	private int missionPoints = 100;
 	private bool isProcessingResults = false;
 
+	private lvl1controller controller;
+
 	//states
 	//0 not started
 	//1 at the start position
@@ -59,6 +61,7 @@ public class Mission : MonoBehaviour {
 	void Start () {
 		collCheck = Player.GetComponent<CollisionChecker> ();
 		isProcessingResults = false;
+		controller = GameObject.Find ("Controller").GetComponent<lvl1controller> ();
 	}
 
 	public void StartMission() {
@@ -69,6 +72,19 @@ public class Mission : MonoBehaviour {
 
 		Player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		Player.GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
+
+
+		//hide the UI
+		controller.pauseMenu.SetActive(false);
+		controller.scenarioSelector.SetActive (false);
+
+
+
+
+
+
+		Time.timeScale = 1;
+		//missionState = 2;
 	}
 
 	//checks the distance to next location and if below 5 trifgger next mission status

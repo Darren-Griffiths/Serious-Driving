@@ -9,6 +9,7 @@ public class lvl1controller : MonoBehaviour {
 
 	public GameObject pauseMenu;
     public GameObject scenarios;
+	public GameObject scenarioSelector;
     //public GameObject pauseMenu;
 
     // Use this for initialization
@@ -59,6 +60,7 @@ public class lvl1controller : MonoBehaviour {
     public void openScenarios()
     {
         scenarios.SetActive(true);
+		scenarioSelector.SetActive (true);
     }
 
     //Returns to main menu
