@@ -29,9 +29,13 @@ public class MissionManager : MonoBehaviour {
 		if (PlayerPrefs.GetInt ("missionID") == 1) {
 			roundaboutScript.SetActive (true);
 			roundaboutUI.SetActive (true);
+			tJunScript.SetActive (false);
+			tJunUI.SetActive (false);
 		} else if (PlayerPrefs.GetInt ("missionID") == 2) {
 			tJunScript.SetActive (true);
 			tJunUI.SetActive (true);
+			roundaboutScript.SetActive (false);
+			roundaboutUI.SetActive (false);
 		} else {
 			tJunScript.SetActive (false);
 			tJunUI.SetActive (false);

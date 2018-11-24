@@ -78,13 +78,13 @@ public class Mission : MonoBehaviour {
 		controller.pauseMenu.SetActive(false);
 		controller.scenarioSelector.SetActive (false);
 
-
-
-
-
-
 		Time.timeScale = 1;
 		//missionState = 2;
+	}
+
+	public void FinishMission() {
+		missionState = 1;
+		finishConditionsUI.SetActive (false);
 	}
 
 	//checks the distance to next location and if below 5 trifgger next mission status
@@ -167,12 +167,16 @@ public class Mission : MonoBehaviour {
 
 		isProcessingResults = true;
 
+		int yOffset = 140;
+
 		//print speed
 		addConditionText (
 			"SPEED TEXT",
 			"Speed limit: " + finishConditions.maxSpeed + " Your max speed: " + finishConditions.playerMaxSpeed,
-			140
+			yOffset
 		);
+
+		yOffset -= 30;
 
 		//check speed
 		if (finishConditions.playerMaxSpeed > finishConditions.maxSpeed) {
@@ -180,34 +184,60 @@ public class Mission : MonoBehaviour {
 			missionPoints -= 10;
 		}
 
-		foreach (MissionStopLocation test in finishConditions.stopLocs) {
-			if (test.playerStopped) {
-				addConditionText (
-					"STOPTEXT",
-					"You stopped in correct position",
-					110
-				);
-			} else {
-				missionPoints -= 10;
 
-				addConditionText (
-					"STOPTEXT",
-					"You failed to stop in the desired location",
-					110
-				);
+
+		foreach (MissionStopLocation stopLocations in finishConditions.stopLocs) {
+			if (stopLocations.isTrafficLightCtrl) {
+				if (stopLocations.wentOnRed) {
+					addConditionText (
+						"REDLIGHT",
+						"You drove through a red light!",
+						yOffset
+					);
+
+					missionPoints -= 20;
+
+					yOffset -= 30;
+				}
+
+
+			} else { 
+				if (stopLocations.playerStopped) {
+					addConditionText (
+						"STOPTEXT",
+						"You stopped in correct position",
+						yOffset
+					);
+				} else {
+					missionPoints -= 10;
+
+					addConditionText (
+						"STOPTEXT",
+						"You failed to stop in the required location",
+						yOffset
+					);
+				}
+
+				yOffset -= 30;
+
 			}
 		}
 
+
+
 		//check hits
 		if (collCheck.carAIhitAmounts > 0) {
-			missionPoints -= 10;
+			missionPoints -= 20;
 
 			addConditionText (
 				"CARAIHIT",
 				"You collided with other cars " + collCheck.carAIhitAmounts + " times.",
-				80
+				yOffset
 			);
+
+			yOffset -= 30;
 		}
+			
 
 		if (collCheck.otherHits > 0) {
 			missionPoints -= 10;
@@ -215,8 +245,9 @@ public class Mission : MonoBehaviour {
 			addConditionText (
 				"OTHERHIT",
 				"You collided with things " + collCheck.carAIhitAmounts + " times.",
-				50
+				yOffset
 			);
+			yOffset -= 30;
 		}
 
 		//check left side of the road
@@ -256,7 +287,7 @@ public class Mission : MonoBehaviour {
 		if (missionPoints <= 70) {
 			addConditionText (
 				"MissionScore",
-				"STOP, just buy a bike or get a bus pass",
+				"STOP! Hand over the keys and just buy a bike or get a bus pass",
 				-100
 			);
 		}

@@ -40,6 +40,7 @@ public class lvl1controller : MonoBehaviour {
             Time.timeScale = 1;
             //Hides pause menu
             pauseMenu.SetActive(false);
+			closeScenarios ();
             //Set Cursor to not be visible
             Cursor.visible = false;
         }
@@ -49,6 +50,7 @@ public class lvl1controller : MonoBehaviour {
         {
             //Freezes game
             Time.timeScale = 0;
+
             //Shows pause menu
             pauseMenu.SetActive(true);
             //Set Cursor to be visible
@@ -62,6 +64,12 @@ public class lvl1controller : MonoBehaviour {
         scenarios.SetActive(true);
 		scenarioSelector.SetActive (true);
     }
+
+	public void closeScenarios()
+	{
+		scenarios.SetActive(false);
+		scenarioSelector.SetActive (false);
+	}
 
     //Returns to main menu
     public void mainmenuOnClick()
