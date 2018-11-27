@@ -1,0 +1,253 @@
+fileFormatVersion: 2
+guid: 3fcc37fb49fc5f64282a9eb02aa5d8f0
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: erka bol
+    100002: haika
+    100004: kamera
+    100006: kof
+    100008: //RootNode
+    100010: kondik
+    100012: kondil
+    100014: osnkvva
+    100016: osvalt
+    100018: sil
+    100020: sil.001
+    100022: sil.002
+    100024: sil.003
+    100026: sn --
+    100028: som
+    100030: son -
+    100032: stakan
+    100034: stol
+    100036: styl 1
+    100038: styl 2
+    100040: tecst
+    100042: teks
+    100044: truba
+    100046: truba.001
+    100048: truba.002
+    100050: truba.003
+    100052: tttesk
+    100054: verka
+    100056: verka mal
+    100058: verka val
+    100060: viviska
+    100062: zwet
+    400000: erka bol
+    400002: haika
+    400004: kamera
+    400006: kof
+    400008: //RootNode
+    400010: kondik
+    400012: kondil
+    400014: osnkvva
+    400016: osvalt
+    400018: sil
+    400020: sil.001
+    400022: sil.002
+    400024: sil.003
+    400026: sn --
+    400028: som
+    400030: son -
+    400032: stakan
+    400034: stol
+    400036: styl 1
+    400038: styl 2
+    400040: tecst
+    400042: teks
+    400044: truba
+    400046: truba.001
+    400048: truba.002
+    400050: truba.003
+    400052: tttesk
+    400054: verka
+    400056: verka mal
+    400058: verka val
+    400060: viviska
+    400062: zwet
+    2000000: kamera
+    2100000: mat
+    2100002: mater
+    2100004: OLOSA 2
+    2100006: matera
+    2100008: miter
+    2100010: "\u041C\u0430\u0442\u0435\u0440\u0438\u0430\u043B.007"
+    2100012: OKNA
+    2100014: mar
+    2100016: No Name
+    2100018: POLOSA 1
+    2100020: OBVODKA
+    2100022: met
+    2100024: mi
+    2100026: miha
+    2100028: hima
+    2100030: sser
+    2300000: erka bol
+    2300002: haika
+    2300004: kof
+    2300006: kondik
+    2300008: kondil
+    2300010: osnkvva
+    2300012: osvalt
+    2300014: sil
+    2300016: sil.001
+    2300018: sil.002
+    2300020: sil.003
+    2300022: stakan
+    2300024: stol
+    2300026: styl 1
+    2300028: styl 2
+    2300030: tecst
+    2300032: teks
+    2300034: truba
+    2300036: truba.001
+    2300038: truba.002
+    2300040: truba.003
+    2300042: tttesk
+    2300044: verka
+    2300046: verka mal
+    2300048: verka val
+    2300050: viviska
+    2300052: zwet
+    3300000: erka bol
+    3300002: haika
+    3300004: kof
+    3300006: kondik
+    3300008: kondil
+    3300010: osnkvva
+    3300012: osvalt
+    3300014: sil
+    3300016: sil.001
+    3300018: sil.002
+    3300020: sil.003
+    3300022: stakan
+    3300024: stol
+    3300026: styl 1
+    3300028: styl 2
+    3300030: tecst
+    3300032: teks
+    3300034: truba
+    3300036: truba.001
+    3300038: truba.002
+    3300040: truba.003
+    3300042: tttesk
+    3300044: verka
+    3300046: verka mal
+    3300048: verka val
+    3300050: viviska
+    3300052: zwet
+    4300000: haika
+    4300002: tttesk
+    4300004: styl 2
+    4300006: verka val
+    4300008: erka bol
+    4300010: stol
+    4300012: styl 1
+    4300014: kof
+    4300016: stakan
+    4300018: tecst
+    4300020: teks
+    4300022: truba
+    4300024: kondil
+    4300026: truba.003
+    4300028: truba.002
+    4300030: sil
+    4300032: sil.003
+    4300034: sil.002
+    4300036: sil.001
+    4300038: verka mal
+    4300040: verka
+    4300042: osnkvva
+    4300044: viviska
+    4300046: kondik
+    4300048: osvalt
+    4300050: truba.001
+    4300052: zwet
+    10800000: sn --
+    10800002: som
+    10800004: son -
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
