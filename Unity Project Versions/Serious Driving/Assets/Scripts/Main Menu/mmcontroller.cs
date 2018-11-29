@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class mmcontroller : MonoBehaviour {
+
+    public GameObject roadSigns;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +20,24 @@ public class mmcontroller : MonoBehaviour {
     // Loads level 1 on click
     public void playbuttonClick()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("level1");
+        SceneManager.LoadScene("level1");
+    }
+
+    // Activates Road Signs on click
+    public void signsbuttonClick()
+    {
+        roadSigns.SetActive(true);
+    }
+
+    // De-Activates Road Signs on click
+    public void hidesignsbuttonClick()
+    {
+        roadSigns.SetActive(false);
+    }
+
+    // Exit Application on click
+    public void exitbuttonClick()
+    {
+        Application.Quit();
     }
 }
