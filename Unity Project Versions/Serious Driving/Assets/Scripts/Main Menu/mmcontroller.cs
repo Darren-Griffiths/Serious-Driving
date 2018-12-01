@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class mmcontroller : MonoBehaviour {
 
     public GameObject roadSigns;
+	public GameObject controls;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +35,16 @@ public class mmcontroller : MonoBehaviour {
     {
         roadSigns.SetActive(false);
     }
+
+	public void showControls()
+	{
+		controls.SetActive (true);
+	}
+
+	public void hideControls()
+	{
+		controls.SetActive (false);
+	}
 
     // Exit Application on click
     public void exitbuttonClick()

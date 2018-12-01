@@ -69,6 +69,7 @@ public class Mission : MonoBehaviour {
 		Player.transform.rotation = Quaternion.Euler(StartRotation);
 		missionState = 1;
 		isMissionActive = true;
+		isProcessingResults = false;
 
 		Player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		Player.GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
@@ -77,6 +78,7 @@ public class Mission : MonoBehaviour {
 		//hide the UI
 		controller.pauseMenu.SetActive(false);
 		controller.scenarioSelector.SetActive (false);
+		FinishDescription.SetActive (false);
 
 		Time.timeScale = 1;
 		//missionState = 2;
@@ -85,6 +87,9 @@ public class Mission : MonoBehaviour {
 	public void FinishMission() {
 		missionState = 1;
 		finishConditionsUI.SetActive (false);
+		FinishDescription.SetActive(false);
+		MissionDescription.SetActive(true);
+		controller.closeScenarios();
 	}
 
 	//checks the distance to next location and if below 5 trifgger next mission status
@@ -127,6 +132,7 @@ public class Mission : MonoBehaviour {
 
 			isMissionActive = false;
 
+
 			FinishDescription.SetActive (true);
 
 			Invoke ("ProcessMissionConditions", 1f);
@@ -166,6 +172,7 @@ public class Mission : MonoBehaviour {
 		}
 
 		isProcessingResults = true;
+		finishConditionsUI.SetActive(true);
 
 		int yOffset = 140;
 
