@@ -16,9 +16,11 @@ public class MissionConditions : MonoBehaviour {
 	private CarController carCtrl;
 
 	//stop locations
-	void Start() {
+	void Start()
+    {
 		carCtrl = Player.GetComponent<CarController> ();
-	}
+        playerMaxSpeed = 0;
+}
 
 	void checkSpeed() {
 		currentSpeed = carCtrl.CurrentSpeed;

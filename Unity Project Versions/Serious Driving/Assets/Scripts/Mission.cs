@@ -35,34 +35,38 @@ public class Mission : MonoBehaviour {
 
 	private lvl1controller controller;
 
-	//states
-	//0 not started
-	//1 at the start position
-	//2 after moving for the first time display location where to drive to 
-	//3 player approached the roundabout show necessery info
-	//4 player started moving after roundabout (or 5s wait) show location where to drive around the roundabout
-	//5 show exit when distance is within a range
-	//6show finish location
+    private carSpeed carSpeed;
+
+    //states
+    //0 not started
+    //1 at the start position
+    //2 after moving for the first time display location where to drive to 
+    //3 player approached the roundabout show necessery info
+    //4 player started moving after roundabout (or 5s wait) show location where to drive around the roundabout
+    //5 show exit when distance is within a range
+    //6show finish location
 
 
 
-	//for the mission we need the start point
-	//description of whats going on
-	//Approach the mission objective (roundabout)
-	//perform checks
-	//when safe move onto the roundabout
-	//proceed the roundabout
-	//exit at the required exit
-	//drive to finish
+    //for the mission we need the start point
+    //description of whats going on
+    //Approach the mission objective (roundabout)
+    //perform checks
+    //when safe move onto the roundabout
+    //proceed the roundabout
+    //exit at the required exit
+    //drive to finish
 
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
+
 		collCheck = Player.GetComponent<CollisionChecker> ();
 		isProcessingResults = false;
 		controller = GameObject.Find ("Controller").GetComponent<lvl1controller> ();
-	}
+        carSpeed = GameObject.Find("Car").GetComponent<carSpeed>();
+    }
 
 	public void StartMission() {
 		Player.transform.position = StartPoint.transform.position;
@@ -71,7 +75,9 @@ public class Mission : MonoBehaviour {
 		isMissionActive = true;
 		isProcessingResults = false;
 
-		Player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+        //Resets finish condition of speed
+        finishConditions.playerMaxSpeed = 0;
+        Player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		Player.GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
 
 
@@ -84,7 +90,8 @@ public class Mission : MonoBehaviour {
 		//missionState = 2;
 	}
 
-	public void FinishMission() {
+
+    public void FinishMission() {
 		missionState = 1;
 		finishConditionsUI.SetActive (false);
 		FinishDescription.SetActive(false);
