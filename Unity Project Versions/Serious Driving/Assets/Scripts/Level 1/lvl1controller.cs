@@ -12,6 +12,7 @@ public class lvl1controller : MonoBehaviour {
 	public GameObject scenarioSelector;
     public GameObject tjVid;
     public GameObject roundVid;
+    public GameObject mwVid;
     //public GameObject pauseMenu;
 
     // Use this for initialization
@@ -105,5 +106,16 @@ public class lvl1controller : MonoBehaviour {
     public void exitrvidOnClick()
     {
         roundVid.SetActive(false);
+    }
+
+    //enables video 
+    public void showmwvidOnClick()
+    {
+        mwVid.SetActive(true);
+    }
+    //Returns from video 
+    public void exitmwvidOnClick()
+    {
+        mwVid.SetActive(false);
     }
 }
