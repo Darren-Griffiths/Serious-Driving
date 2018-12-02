@@ -5206,7 +5206,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Objectives:\n\t- Drive to the roundabout\n\t- Stop in designated area\n\t-
-    Safetly navigate roundabout\n\t- Exit roundabout\n\t- Continue with jurney"
+    Safetly navigate roundabout\n\t- Exit roundabout\n\t- Continue with journey"
 --- !u!114 &114533852609244614
 MonoBehaviour:
   m_ObjectHideFlags: 1
