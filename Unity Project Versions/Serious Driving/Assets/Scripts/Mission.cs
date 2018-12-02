@@ -22,7 +22,7 @@ public class Mission : MonoBehaviour {
 
 	public int missionState = 0;
 
-	private List<GameObject> missionCurrentEnabledLocations = new List<GameObject> ();
+	public List<GameObject> missionCurrentEnabledLocations = new List<GameObject> ();
 	private bool isMissionActive = false;
 
 	public MissionConditions finishConditions;
@@ -74,11 +74,20 @@ public class Mission : MonoBehaviour {
 		missionState = 1;
 		isMissionActive = true;
 		isProcessingResults = false;
+		missionPoints = 100;
 
         //Resets finish condition of speed
         finishConditions.playerMaxSpeed = 0;
         Player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		Player.GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
+
+
+		//clea the finishing conditions ui
+		foreach (Transform test in finishConditionsUI.transform) {
+			Debug.Log(test.gameObject);
+			GameObject.Destroy (test.gameObject);
+			Destroy(test);
+		}
 
 
 		//hide the UI
@@ -110,7 +119,7 @@ public class Mission : MonoBehaviour {
 
 		//Debug.Log ("Mission distance: " + dist);
 
-		if (dist < 5) {
+		if (dist < 10) {
 			missionState++;
 		}
 
@@ -139,12 +148,11 @@ public class Mission : MonoBehaviour {
 
 			isMissionActive = false;
 
-
 			FinishDescription.SetActive (true);
 
-			Invoke ("ProcessMissionConditions", 1f);
+			//Invoke ("ProcessMissionConditions", 1f);
 
-			//ProcessMissionConditions ();
+			ProcessMissionConditions ();
 		}
 	}
 
@@ -161,7 +169,8 @@ public class Mission : MonoBehaviour {
 
 		RectTransform trans = UIText.AddComponent<RectTransform> ();
 		trans.anchoredPosition = new Vector2 (0,YPOS);
-		trans.sizeDelta = new Vector2(390, 30);
+		trans.sizeDelta = new Vector2(350, 50);
+		trans.localScale = new Vector3(1,1,1);
 
 		Text speedText = UIText.AddComponent<Text>();
 		speedText.font = Resources.GetBuiltinResource (typeof(Font), "Arial.ttf") as Font;
@@ -169,35 +178,46 @@ public class Mission : MonoBehaviour {
 		speedText.fontSize = 20;
 
 
+
 	}
 
 	//displays all the conditions set for the mission
 	void ProcessMissionConditions() {
-
+		Debug.Log("Processing mission results");
 		if (isProcessingResults) {
 			return;
 		}
 
+
+		Debug.Log("we here");
+
+
 		isProcessingResults = true;
 		finishConditionsUI.SetActive(true);
 
-		int yOffset = 140;
+		int yOffset = 120;
+
+		string speedText = "";
+
+		//check speed
+		if (finishConditions.playerMaxSpeed > (finishConditions.maxSpeed * 0.05 )) {
+			//take away points for this
+			missionPoints -= 10;
+			speedText = "Speed limit: " + finishConditions.maxSpeed + " Your max speed: " + finishConditions.playerMaxSpeed;
+		} else {
+
+			speedText = "You followed the speed rules";
+		}
+
 
 		//print speed
 		addConditionText (
 			"SPEED TEXT",
-			"Speed limit: " + finishConditions.maxSpeed + " Your max speed: " + finishConditions.playerMaxSpeed,
+			speedText,
 			yOffset
 		);
 
-		yOffset -= 30;
-
-		//check speed
-		if (finishConditions.playerMaxSpeed > finishConditions.maxSpeed) {
-			//take away points for this
-			missionPoints -= 10;
-		}
-
+		yOffset -= 45;
 
 
 		foreach (MissionStopLocation stopLocations in finishConditions.stopLocs) {
@@ -211,7 +231,7 @@ public class Mission : MonoBehaviour {
 
 					missionPoints -= 20;
 
-					yOffset -= 30;
+					yOffset -= 45;
 				}
 
 
@@ -232,7 +252,7 @@ public class Mission : MonoBehaviour {
 					);
 				}
 
-				yOffset -= 30;
+				yOffset -= 45;
 
 			}
 		}
@@ -249,7 +269,7 @@ public class Mission : MonoBehaviour {
 				yOffset
 			);
 
-			yOffset -= 30;
+			yOffset -= 45;
 		}
 			
 
@@ -261,7 +281,7 @@ public class Mission : MonoBehaviour {
 				"You collided with things " + collCheck.carAIhitAmounts + " times.",
 				yOffset
 			);
-			yOffset -= 30;
+			yOffset -= 45;
 		}
 
 		//check left side of the road
@@ -273,7 +293,7 @@ public class Mission : MonoBehaviour {
 
 			addConditionText (
 				"MissionScore",
-				"Well done, perfect score",
+				"Well done, perfect score.",
 				-100
 			);
 
@@ -281,7 +301,7 @@ public class Mission : MonoBehaviour {
 		case 90:
 			addConditionText (
 				"MissionScore",
-				"Good, almost a perfect score just need more practice",
+				"Good, need a little more practice",
 				-100
 			);
 
@@ -290,7 +310,7 @@ public class Mission : MonoBehaviour {
 		case 80: 
 			addConditionText (
 				"MissionScore",
-				"OK, More work required",
+				"Could be better, More work required",
 				-100
 			);
 			break;
@@ -301,7 +321,7 @@ public class Mission : MonoBehaviour {
 		if (missionPoints <= 70) {
 			addConditionText (
 				"MissionScore",
-				"STOP! Hand over the keys and just buy a bike or get a bus pass",
+				"STOP! Hand over the keys and just buy a bus pass",
 				-100
 			);
 		}
@@ -318,7 +338,7 @@ public class Mission : MonoBehaviour {
 			return;
 		}
 
-		GameObject missionLoc = Instantiate (missionMarker, missionLocations[markerIndex].transform.position, Quaternion.identity);
+		GameObject missionLoc = Instantiate (missionMarker, missionLocations[markerIndex].transform.position, missionLocations[markerIndex].transform.localRotation);
 		missionLoc.SetActive (true);
 
 		missionCurrentEnabledLocations.Add (missionLoc);
@@ -328,7 +348,10 @@ public class Mission : MonoBehaviour {
 	void ClearMissionMarkers() {
 		foreach(GameObject loc in missionCurrentEnabledLocations) {
 			if (loc != null) {
-				loc.SetActive (false);
+				Destroy(loc.gameObject);
+
+				//loc.SetActive (false);
+
 			}
 		}
 
