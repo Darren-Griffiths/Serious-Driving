@@ -13,12 +13,13 @@ public class lvl1controller : MonoBehaviour {
     public GameObject tjVid;
     public GameObject roundVid;
     public GameObject mwVid;
+    public GameObject startTip;
     //public GameObject pauseMenu;
 
     // Use this for initialization
     void Start ()
     {
-
+        Time.timeScale = 1;
     }
 	
 	// Update is called once per frame
@@ -43,6 +44,7 @@ public class lvl1controller : MonoBehaviour {
             Time.timeScale = 1;
             //Hides pause menu
             pauseMenu.SetActive(false);
+
 			closeScenarios ();
             //Set Cursor to not be visible
             Cursor.visible = false;
@@ -53,6 +55,7 @@ public class lvl1controller : MonoBehaviour {
         {
             //Freezes game
             Time.timeScale = 0;
+            startTip.SetActive(false);
 
             //Shows pause menu
             pauseMenu.SetActive(true);

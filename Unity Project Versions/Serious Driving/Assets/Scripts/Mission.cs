@@ -66,6 +66,8 @@ public class Mission : MonoBehaviour {
 		isProcessingResults = false;
 		controller = GameObject.Find ("Controller").GetComponent<lvl1controller> ();
         carSpeed = GameObject.Find("Car").GetComponent<carSpeed>();
+
+        
     }
 
 	public void StartMission() {
@@ -451,6 +453,10 @@ public class Mission : MonoBehaviour {
 	}
 
 	void enableNextMissionTip(int missionTipIndex) {
+		if(PlayerPrefs.GetInt ("difficulty") == 1) {
+			return;
+		}
+
 
 		if (missionTips.ElementAtOrDefault(missionTipIndex - 1) != null) {
 			//disable previous

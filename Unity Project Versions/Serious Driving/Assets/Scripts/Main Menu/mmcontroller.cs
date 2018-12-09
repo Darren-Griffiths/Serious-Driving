@@ -8,6 +8,7 @@ public class mmcontroller : MonoBehaviour {
 
     public GameObject roadSigns;
 	public GameObject controls;
+    public GameObject difficulty;
 
 	// Use this for initialization
 	void Start () {
@@ -45,6 +46,14 @@ public class mmcontroller : MonoBehaviour {
 	{
 		controls.SetActive (false);
 	}
+
+    public void showDifficulty() {
+        difficulty.SetActive(true);
+    }
+
+    public void hideDifficulty() {
+        difficulty.SetActive(false);
+    }
 
     // Exit Application on click
     public void exitbuttonClick()

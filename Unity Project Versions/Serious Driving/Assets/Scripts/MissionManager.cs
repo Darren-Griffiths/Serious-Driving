@@ -51,7 +51,6 @@ public class MissionManager : MonoBehaviour {
 			motorwayMissionUI.SetActive (false);
 			motorwayMission.SetActive(false);
 		} else if (PlayerPrefs.GetInt ("missionID") == 3) {
-			Debug.Log("we here");
 			motorwayMissionUI.SetActive (true);
 			motorwayMission.SetActive(true);
 			tJunScript.SetActive (false);
