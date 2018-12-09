@@ -1335,7 +1335,7 @@ RectTransform:
   - {fileID: 1188832283}
   - {fileID: 1364170823}
   m_Father: {fileID: 918014030}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1455,7 +1455,7 @@ RectTransform:
   m_Children:
   - {fileID: 820000459}
   m_Father: {fileID: 918014030}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.312}
   m_AnchorMax: {x: 0.5, y: 0.312}
@@ -2339,7 +2339,7 @@ RectTransform:
   - {fileID: 1666329224}
   - {fileID: 1880760218}
   m_Father: {fileID: 918014030}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3426,9 +3426,9 @@ RectTransform:
   - {fileID: 170464635}
   - {fileID: 142004969}
   - {fileID: 123738120}
+  - {fileID: 269026408}
   - {fileID: 259541084}
   - {fileID: 566816944}
-  - {fileID: 269026408}
   - {fileID: 255068085}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -5357,7 +5357,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1831496438}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 717039902}
+        m_MethodName: exitbuttonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1831496438
